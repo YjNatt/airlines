@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import './App.css';
 import airlineData, { getAirlineById, getAirportByCode } from './data';
 import Table from './components/Table';
+import Select from './components/Select';
 
 const App = () => {
   const columns = [
@@ -44,16 +45,14 @@ const App = () => {
       <h1 className="title">Airline Routes</h1>
     </header>
     <section>
-      <div>
-        <select name="airline" id="airline-select" onChange={airlineSelectHandle}>
-          <option value="0">All Airlines</option>
-          {airlineData.airlines.map(airline => {
-            return (
-              <option key={airline.id} value={airline.id}>{airline.name}</option>
-            )
-          })}
-        </select>
-      </div>
+      <Select
+        options={airlineData.airlines}
+        valueKey='id'
+        titleKey='name'
+        allTitle='All Airlines'
+        value='0'
+        onSelect={airlineSelectHandle}
+      />
       <Table
         className="routes-table"
         columns={columns}
