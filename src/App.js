@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import routes from './data';
 import './App.css';
 
 const App = () => (
