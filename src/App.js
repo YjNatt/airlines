@@ -1,35 +1,42 @@
 import React, { Component } from 'react';
-import airlineData, { getAirlineById, getAirportByCode } from './data';
 import './App.css';
+import airlineData, { getAirlineById, getAirportByCode } from './data';
+import Table from './components/Table';
 
-const App = () => (
-  <div className="app">
-  <header className="header">
-    <h1 className="title">Airline Routes</h1>
-  </header>
-  <section>
-    <table>
-      <thead>
-        <tr>
-          <th>Airline</th>
-          <th>Source Airport</th>
-          <th>Destination Airport</th>
-        </tr>
-      </thead>
-      <tbody>
-        {airlineData.routes.map((route, index) => {
-          return(
-            <tr key={index}>
-              <td>{getAirlineById(route.airline).name}</td>
-              <td>{getAirportByCode(route.src).name}</td>
-              <td>{getAirportByCode(route.dest).name}</td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
-  </section>
-</div>
-)
+const App = () => {
+  const columns = [
+    {name: 'Airline', property: 'airline'},
+    {name: 'Source Airport', property: 'src'},
+    {name: 'Destination Airport', property: 'dest'}
+  ]
+
+  const formatValue = (property, value) => {
+    let fetchedValue;
+
+    if (property === 'airline') {
+      fetchedValue = getAirlineById(value[property]);
+    } else {
+      fetchedValue = getAirportByCode(value[property]);
+    }
+
+    return fetchedValue.name;
+  }
+
+  return (
+    <div className="app">
+    <header className="header">
+      <h1 className="title">Airline Routes</h1>
+    </header>
+    <section>
+      <Table
+        className="routes-table"
+        columns={columns}
+        rows={airlineData.routes}
+        format={formatValue}
+      />
+    </section>
+  </div>
+  )
+};
 
 export default App;
