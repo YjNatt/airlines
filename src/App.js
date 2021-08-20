@@ -5,8 +5,9 @@ import Table from './components/Table';
 import Select from './components/Select';
 
 const App = () => {
-  const [airlineId, setAirlineId] = useState(0);
-  const [airportCode, setAirportCode] = useState('')
+  const [airlineId, setAirlineId] = useState('all');
+  const [airportCode, setAirportCode] = useState('all')
+
   const columns = [
     {name: 'Airline', property: 'airline'},
     {name: 'Source Airport', property: 'src'},
@@ -26,33 +27,58 @@ const App = () => {
   }
 
   const airlineSelectHandle = (event) => {
-    setAirlineId(Number(event.target.value))
+    setAirlineId(event.target.value);
   }
 
   const airportSelectHandle = (event) => {
-    setAirportCode(event.target.value)
+    setAirportCode(event.target.value);
   }
 
   const filterRoutes = () => {
-    if (!airlineId  && !airportCode) {
+    if (airlineId === 'all' && airportCode === 'all') {
       return airlineData.routes;
     }
 
     return airlineData.routes.filter(routes => {
       let isSelected;
 
-      if (!airportCode) {
-        isSelected = routes.airline === airlineId;
-      } else if (!airlineId) {
+      if (airportCode === 'all') {
+        isSelected = routes.airline === Number(airlineId);
+      } else if (airlineId === 'all') {
         isSelected = routes.src === airportCode || routes.dest === airportCode;
       } else {
         isSelected = (routes.src === airportCode || routes.dest === airportCode) &&
-                     routes.airline === airlineId;
+                     routes.airline === Number(airlineId);
       }
 
       return isSelected;
     })
   }
+
+  const filterAirlines = (() => {
+    const availableRoutes = airlineData.routes.filter(route => {
+      return route.src === airportCode ||
+             route.dest === airportCode ||
+             airportCode === 'all'
+    });
+
+    return airlineData.airlines.map(airline => {
+      const hasRoute = availableRoutes.some(route => route.airline === airline.id)
+      return { ...airline, disabled: !hasRoute }
+    })
+  })();
+
+  const filterAirports = (() => {
+    const availableRoutes = airlineData.routes.filter(route => {
+      return route.airline === Number(airlineId) ||
+             airlineId === 'all'
+    });
+
+    return airlineData.airports.map(airport => {
+      const hasRoute = availableRoutes.some(route => route.src === airport.code || route.dest === airport.code)
+      return { ...airport, disabled: !hasRoute }
+    })
+  })();
 
   return (
     <div className="app">
@@ -63,20 +89,20 @@ const App = () => {
       <p>
         Show routes on
         <Select
-          options={airlineData.airlines}
+          options={filterAirlines}
           valueKey='id'
           titleKey='name'
           allTitle='All Airlines'
-          value=''
+          value={airlineId}
           onSelect={airlineSelectHandle}
         />
         flying in or out of
         <Select
-          options={airlineData.airports}
+          options={filterAirports}
           valueKey='code'
           titleKey='name'
           allTitle='All Airports'
-          value=''
+          value={airportCode}
           onSelect={airportSelectHandle}
         />
       </p>
