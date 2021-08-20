@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 
-const Table = ({ columns, rows, format }) => {
+const Table = ({ columns, rows, format, perPage }) => {
   const [rowIndex, setRowIndex] = useState(0);
-  let currentRows = rows.slice(rowIndex, rowIndex + 25)
+  let currentRows = rows.slice(rowIndex, rowIndex + perPage)
 
   const nextPageHandle = (event) => {
-    setRowIndex(rowIndex + 25)
+    setRowIndex(rowIndex + perPage)
   }
 
   const prevPageHandle = (event) => {
-    setRowIndex(rowIndex - 25)
+    setRowIndex(rowIndex - perPage)
   }
 
   const prevPageButtonDisable = () => {
-    return rowIndex - 25 < 0
+    return rowIndex - perPage < 0
   }
 
   const nextPageButtonDisable = () => {
-    return rowIndex + 25 >= rows.length
+    return rowIndex + perPage >= rows.length
   }
 
   return(
@@ -43,7 +43,7 @@ const Table = ({ columns, rows, format }) => {
         </tbody>
       </table>
       <div>
-        <p>Showing {rowIndex + 1} - {rowIndex + 25} of {rows.length} total routes</p>
+        <p>Showing {rowIndex + 1} - {rowIndex + perPage} of {rows.length} total routes</p>
         <button type="button" disabled={prevPageButtonDisable()} onClick={prevPageHandle}>Previous Page</button>
         <button type="button" disabled={nextPageButtonDisable()} onClick={nextPageHandle}>Next Page</button>
       </div>

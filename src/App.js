@@ -33,6 +33,7 @@ const App = () => {
         columns={columns}
         rows={airlineData.routes}
         format={formatValue}
+        perPage={25}
       />
     </section>
   </div>
