@@ -7,8 +7,8 @@ const Select = ({ options, valueKey, titleKey, allTitle, value, onSelect }) => {
   }
 
   return (
-    <select onChange={changeHandle}>
-      <option key={value} value={value}>{allTitle}</option>
+    <select value={value} onChange={changeHandle}>
+      <option key={'all'} value={'all'} >{allTitle}</option>
       {options.map(option => {
         return (
           <option

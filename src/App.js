@@ -80,6 +80,11 @@ const App = () => {
     })
   })();
 
+  const resetSelects = (event) => {
+    setAirportCode('all')
+    setAirlineId('all')
+  }
+
   return (
     <div className="app">
     <header className="header">
@@ -105,6 +110,7 @@ const App = () => {
           value={airportCode}
           onSelect={airportSelectHandle}
         />
+        <button type="button" onClick={resetSelects}>Show All Routes</button>
       </p>
       <Table
         className="routes-table"
