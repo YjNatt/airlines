@@ -5,6 +5,8 @@ import Table from './components/Table';
 import Select from './components/Select';
 
 const App = () => {
+  const [airlineId, setAirlineId] = useState(0);
+  const [airportCode, setAirportCode] = useState('')
   const columns = [
     {name: 'Airline', property: 'airline'},
     {name: 'Source Airport', property: 'src'},
@@ -23,19 +25,32 @@ const App = () => {
     return fetchedValue.name;
   }
 
-  const [airlineId, setAirlineId] = useState(0);
-
   const airlineSelectHandle = (event) => {
     setAirlineId(Number(event.target.value))
   }
 
+  const airportSelectHandle = (event) => {
+    setAirportCode(event.target.value)
+  }
+
   const filterRoutes = () => {
-    if (airlineId === 0) {
+    if (!airlineId  && !airportCode) {
       return airlineData.routes;
     }
 
     return airlineData.routes.filter(routes => {
-      return routes.airline === airlineId
+      let isSelected;
+
+      if (!airportCode) {
+        isSelected = routes.airline === airlineId;
+      } else if (!airlineId) {
+        isSelected = routes.src === airportCode || routes.dest === airportCode;
+      } else {
+        isSelected = (routes.src === airportCode || routes.dest === airportCode) &&
+                     routes.airline === airlineId;
+      }
+
+      return isSelected;
     })
   }
 
@@ -45,14 +60,26 @@ const App = () => {
       <h1 className="title">Airline Routes</h1>
     </header>
     <section>
-      <Select
-        options={airlineData.airlines}
-        valueKey='id'
-        titleKey='name'
-        allTitle='All Airlines'
-        value='0'
-        onSelect={airlineSelectHandle}
-      />
+      <p>
+        Show routes on
+        <Select
+          options={airlineData.airlines}
+          valueKey='id'
+          titleKey='name'
+          allTitle='All Airlines'
+          value=''
+          onSelect={airlineSelectHandle}
+        />
+        flying in or out of
+        <Select
+          options={airlineData.airports}
+          valueKey='code'
+          titleKey='name'
+          allTitle='All Airports'
+          value=''
+          onSelect={airportSelectHandle}
+        />
+      </p>
       <Table
         className="routes-table"
         columns={columns}
