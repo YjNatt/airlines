@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import airlineData from './data';
+import airlineData, { getAirlineById, getAirportByCode } from './data';
 import './App.css';
 
 const App = () => (
@@ -20,9 +20,9 @@ const App = () => (
         </tr>
       </thead>
       <tbody>
-        {airlineData.routes.map(route => {
+        {airlineData.routes.map((route, index) => {
           return(
-            <tr>
+            <tr key={index}>
               <td>{route.airline}</td>
               <td>{route.src}</td>
               <td>{route.dest}</td>
