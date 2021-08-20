@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Table = ({ columns, rows, format }) => {
+  let currentRows = rows.slice(0, 25)
 
   return(
     <table>
@@ -12,7 +13,7 @@ const Table = ({ columns, rows, format }) => {
         </tr>
       </thead>
       <tbody>
-        {rows.map((row, index) => {
+        {currentRows.map((row, index) => {
           return(
             <tr key={index}>
               <td>{format('airline', row)}</td>
