@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import routes from './data';
+import airlineData from './data';
 import './App.css';
 
 const App = () => (
@@ -11,6 +11,26 @@ const App = () => (
     <p>
       Welcome to the app!
     </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Airline</th>
+          <th>Source Airport</th>
+          <th>Destination Airport</th>
+        </tr>
+      </thead>
+      <tbody>
+        {airlineData.routes.map(route => {
+          return(
+            <tr>
+              <td>{route.airline}</td>
+              <td>{route.src}</td>
+              <td>{route.dest}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
   </section>
 </div>
 )
