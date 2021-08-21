@@ -3,6 +3,7 @@ import './App.css';
 import airlineData, { getAirlineById, getAirportByCode } from './data';
 import Table from './components/Table';
 import Select from './components/Select';
+import Map from './components/Map';
 
 const App = () => {
   const [airlineId, setAirlineId] = useState('all');
@@ -34,7 +35,7 @@ const App = () => {
     setAirportCode(event.target.value);
   }
 
-  const filterRoutes = () => {
+  const filterRoutes = (() => {
     if (airlineId === 'all' && airportCode === 'all') {
       return airlineData.routes;
     }
@@ -53,7 +54,7 @@ const App = () => {
 
       return isSelected;
     })
-  }
+  })();
 
   const filterAirlines = (() => {
     const availableRoutes = airlineData.routes.filter(route => {
@@ -91,6 +92,7 @@ const App = () => {
       <h1 className="title">Airline Routes</h1>
     </header>
     <section>
+      <Map routes={filterRoutes}/>
       <p>
         Show routes on
         <Select
@@ -115,7 +117,7 @@ const App = () => {
       <Table
         className="routes-table"
         columns={columns}
-        rows={filterRoutes()}
+        rows={filterRoutes}
         format={formatValue}
         perPage={25}
       />
