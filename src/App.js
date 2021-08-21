@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import airlineData, { getAirlineById, getAirportByCode } from './data';
 import Table from './components/Table';
