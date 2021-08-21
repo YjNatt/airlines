@@ -10,11 +10,20 @@ const Select = ({ options, valueKey, titleKey, allTitle, value, onSelect }) => {
     <select value={value} onChange={changeHandle}>
       <option key={'all'} value={'all'} >{allTitle}</option>
       {options.map(option => {
+        let isDisabled
+        if (value === String(option[valueKey])) {
+          isDisabled = false;
+        } else if (value !== 'all') {
+          isDisabled = true;
+        } else {
+          isDisabled = option.disabled
+        }
+
         return (
           <option
             key={option[valueKey]}
             value={option[valueKey]}
-            disabled={option.disabled}
+            disabled={isDisabled}
           >
             {option[titleKey]}
           </option>
