@@ -43,7 +43,7 @@ const Table = ({ columns, rows, format, perPage }) => {
         </tbody>
       </table>
       <div>
-        <p>Showing {rowIndex + 1} - {rowIndex + perPage} of {rows.length} total routes</p>
+        <p>Showing {rowIndex + 1} - {rowIndex + currentRows.length} of {rows.length} total routes</p>
         <button type="button" disabled={prevPageButtonDisable()} onClick={prevPageHandle}>Previous Page</button>
         <button type="button" disabled={nextPageButtonDisable()} onClick={nextPageHandle}>Next Page</button>
       </div>
