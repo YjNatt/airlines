@@ -112,7 +112,7 @@ const App = () => {
           value={airportCode}
           onSelect={airportSelectHandle}
         />
-        <button type="button" onClick={resetSelects}>Show All Routes</button>
+        <button type="button" onClick={resetSelects} disabled={airportCode === 'all' && airlineId === 'all'}>Show All Routes</button>
       </p>
       <Table
         className="routes-table"
