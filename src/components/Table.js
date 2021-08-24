@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Table = ({ columns, rows, format, perPage }) => {
+const Table = ({ columns, rows, format, perPage, className="table" }) => {
   const [rowIndex, setRowIndex] = useState(0);
   let currentRows = rows.slice(rowIndex, rowIndex + perPage)
 
@@ -22,7 +22,7 @@ const Table = ({ columns, rows, format, perPage }) => {
 
   return(
     <div>
-      <table>
+      <table className={className}>
         <thead>
           <tr>
             {columns.map(col => {
